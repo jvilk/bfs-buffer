@@ -1,0 +1,22 @@
+{
+  "name": "bfs-buffer",
+  "version": "0.0.1",
+  "description": "The Buffer module, used in BrowserFS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jvilk/bfs-buffer.git"
+  },
+  "author": "John Vilk <jvilk@cs.umass.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jvilk/bfs-buffer/issues"
+  },
+  "peerDependencies": {
+    "browserfs": "~0.4"
+  },
+  "homepage": "https://github.com/jvilk/bfs-buffer#readme"
+}
