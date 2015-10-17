@@ -1,10 +1,11 @@
 {
   "name": "bfs-buffer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The Buffer module, used in BrowserFS.",
-  "main": "index.js",
+  "main": "js/buffer.js",
+  "typings": "js/buffer",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "node prepublish"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,9 @@
   "peerDependencies": {
     "browserfs": "~0.4"
   },
-  "homepage": "https://github.com/jvilk/bfs-buffer#readme"
+  "homepage": "https://github.com/jvilk/bfs-buffer#readme",
+  "devDependencies": {
+    "tsd": "^0.6.5",
+    "typescript": "^1.6.2"
+  }
 }

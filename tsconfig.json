@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES3",
+        "declaration": true,
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "outDir": "js"
+    },
+    "files": [
+        "typings/tsd.d.ts",
+        "ts/buffer.ts",
+        "ts/buffer_core.ts",
+        "ts/buffer_core_array.ts",
+        "ts/buffer_core_arraybuffer.ts",
+        "ts/buffer_core_imagedata.ts",
+        "ts/string_util.ts"
+    ]
+}
