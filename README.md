@@ -18,9 +18,10 @@ This module can be used with Browserify in place of its default `Buffer` module!
 
 Here's the relevant configuration:
 
-```
+```{js}
 {
-    builtins: {
+    builtins:
+    {
         "buffer": require.resolve('bfs-buffer')
     },
     insertGlobalVars: {
