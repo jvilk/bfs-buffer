@@ -3,8 +3,6 @@
 
 ## Features
 
-* Can be used with Browserify!
-  * Relevant config snippet: `{ builtins: { "buffer": require.resolve('bfs-buffer') }, insertGlobalVars: { "Buffer": function() { return "require('bfs-buffer').Buffer" } } }`
 * Space-efficient binary representation across browsers.
   * `ArrayBuffer` in modern browsers
   * `CanvasPixelArray` in older browsers that do not support typed arrays, but support the canvas.
@@ -13,6 +11,23 @@
   * ...with a few exceptions, due to browser limitations (see below).
 * Well-tested! Passes all of Node's `Buffer` tests.
   * The unit tests are located in the [BrowserFS](https://github.com/jvilk/BrowserFS) repository.
+
+## Use with Browserify
+
+This module can be used with Browserify in place of its default `Buffer` module!
+
+Here's the relevant configuration:
+
+```
+{
+    builtins: {
+        "buffer": require.resolve('bfs-buffer')
+    },
+    insertGlobalVars: {
+        "Buffer": function() { return "require('bfs-buffer').Buffer" }
+    }
+}
+```
 
 ## Limitations
 
