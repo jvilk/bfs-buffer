@@ -1,4 +1,4 @@
-import buffer_core = require('./buffer_core');
+import {BufferCoreCommon, BufferCore, BufferCoreImplementation} from './buffer_core';
 
 /**
  * Deprecated type, so it is not present in TypeScript's lib.d.ts.
@@ -15,7 +15,7 @@ declare var CanvasPixelArray: CanvasPixelArray;
  * Useful in browsers with HTML5 canvas support, but no TypedArray support
  * (IE9).
  */
-class BufferCoreImageData extends buffer_core.BufferCoreCommon implements buffer_core.BufferCore {
+class BufferCoreImageData extends BufferCoreCommon implements BufferCore {
   private static imageDataFactory: CanvasRenderingContext2D;
   /**
    * Constructs a CanvasPixelArray that represents the given amount of bytes.
@@ -55,7 +55,7 @@ class BufferCoreImageData extends buffer_core.BufferCoreCommon implements buffer
   public readUInt8(i: number): number {
     return this.buff[i];
   }
-  public copy(start: number, end: number): buffer_core.BufferCore {
+  public copy(start: number, end: number): BufferCore {
     // AFAIK, there's no efficient way to clone ImageData.
     var newBC = new BufferCoreImageData(end - start);
     for (var i = start; i < end; i++) {
@@ -66,6 +66,6 @@ class BufferCoreImageData extends buffer_core.BufferCoreCommon implements buffer
 }
 
 // Type-check the class.
-var _: buffer_core.BufferCoreImplementation = BufferCoreImageData;
+var _: BufferCoreImplementation = BufferCoreImageData;
 
 export = BufferCoreImageData;

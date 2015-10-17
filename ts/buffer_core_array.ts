@@ -1,4 +1,4 @@
-import buffer_core = require('./buffer_core');
+import {BufferCoreCommon, BufferCore, BufferCoreImplementation} from './buffer_core';
 
 // Used to clear segments of an array index.
 var clearMasks: number[] = [0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF, 0x00FFFFFF];
@@ -10,7 +10,7 @@ var clearMasks: number[] = [0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF, 0x00FFFFFF];
  *  BYTE 3      BYTE 2      BYTE 1      BYTE 0
  * 0000 0000 | 0000 0000 | 0000 0000 | 0000 0000
  */
-class BufferCoreArray extends buffer_core.BufferCoreCommon implements buffer_core.BufferCore {
+class BufferCoreArray extends BufferCoreCommon implements BufferCore {
   public static isAvailable(): boolean {
     return true;
   }
@@ -49,7 +49,7 @@ class BufferCoreArray extends buffer_core.BufferCoreCommon implements buffer_cor
     // Bring the data we want into the lowest 8 bits, and truncate.
     return (this.buff[arrIdx] >> (intIdx << 3)) & 0xFF;
   }
-  public copy(start: number, end: number): buffer_core.BufferCore {
+  public copy(start: number, end: number): BufferCore {
     // Stupid unoptimized copy. Later, we could do optimizations when aligned.
     var newBC = new BufferCoreArray(end - start);
     for (var i = start; i < end; i++) {
@@ -60,6 +60,6 @@ class BufferCoreArray extends buffer_core.BufferCoreCommon implements buffer_cor
 }
 
 // Type-check the class.
-var _: buffer_core.BufferCoreImplementation = BufferCoreArray;
+var _: BufferCoreImplementation = BufferCoreArray;
 
 export = BufferCoreArray;

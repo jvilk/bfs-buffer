@@ -7,6 +7,7 @@ import BufferCoreArray = require('./buffer_core_array');
 import BufferCoreArrayBuffer = require('./buffer_core_arraybuffer');
 import BufferCoreImageData = require('./buffer_core_imagedata');
 import {StringUtil, FindUtil} from './string_util';
+import {isArrayBuffer, isArrayBufferView} from './util';
 
 // BC implementations earlier in the array are preferred.
 var BufferCorePreferences: buffer_core.BufferCoreImplementation[] = [
@@ -53,7 +54,6 @@ function checkOffset(offset: number, ext: number, length: number): void {
     throw new RangeError('index out of range');
   }
 }
-
 
 /**
  * MAX_INT for various byte sizes.
@@ -173,13 +173,13 @@ export class Buffer implements BFSBuffer {
 
   /**
    * Constructs a buffer.
-   * @param {(number|DataView|ArrayBuffer|Buffer|string)} arg1 - Instantiate a buffer of the indicated size, or
+   * @param arg1 - Instantiate a buffer of the indicated size, or
    *   from the indicated Array or String.
-   * @param {string} [arg2=utf8] - Encoding to use if arg1 is a string
+   * @param [arg2="utf8"] - Encoding to use if arg1 is a string
    */
   constructor (size: number);
   constructor (data: any[]);
-  constructor (data: DataView);
+  constructor (data: ArrayBufferView);
   constructor (data: ArrayBuffer);
   constructor (data: NodeBuffer);
   constructor (data: JSONBufferObject);
@@ -206,11 +206,11 @@ export class Buffer implements BFSBuffer {
       }
       this.length = arg1;
       this.data = new PreferredBufferCore(arg1);
-    } else if (typeof DataView !== 'undefined' && arg1 instanceof DataView) {
-      // constructor (data: DataView);
-      this.data = new BufferCoreArrayBuffer(<DataView> arg1);
+    } else if (isArrayBufferView(arg1)) {
+      // constructor (data: ArrayBufferView);
+      this.data = new BufferCoreArrayBuffer(arg1);
       this.length = arg1.byteLength;
-    } else if (typeof ArrayBuffer !== 'undefined' && typeof arg1.byteLength === 'number') {
+    } else if (isArrayBuffer(arg1)) {
       // constructor (data: ArrayBuffer);
       // Note: Can't do 'instanceof ArrayBuffer' in Safari in some cases. :|
       this.data = new BufferCoreArrayBuffer(<ArrayBuffer> arg1);
@@ -409,7 +409,7 @@ export class Buffer implements BFSBuffer {
       return ab;
     }
   }
-  
+
   /**
    * Converts the buffer into a Uint8Array. Will attempt to use an underlying
    * ArrayBuffer, but will need to copy the data if the Buffer is not backed
@@ -422,7 +422,7 @@ export class Buffer implements BFSBuffer {
         ab = dv.buffer,
         offset = this.offset + dv.byteOffset,
         length = this.length;
-      
+
       return new Uint8Array(ab).subarray(offset, offset + length);
     } else {
       var ab = new ArrayBuffer(this.length),

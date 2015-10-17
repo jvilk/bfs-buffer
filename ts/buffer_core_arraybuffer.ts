@@ -1,9 +1,10 @@
-import buffer_core = require('./buffer_core');
+import {BufferCoreCommon, BufferCore, BufferCoreImplementation} from './buffer_core';
+import {isArrayBuffer, isArrayBufferView} from './util';
 
 /**
  * Represents data using an ArrayBuffer.
  */
-class BufferCoreArrayBuffer extends buffer_core.BufferCoreCommon implements buffer_core.BufferCore {
+class BufferCoreArrayBuffer extends BufferCoreCommon implements BufferCore {
   public static isAvailable(): boolean {
     return typeof DataView !== 'undefined';
   }
@@ -13,16 +14,20 @@ class BufferCoreArrayBuffer extends buffer_core.BufferCoreCommon implements buff
   private buff: DataView;
   private length: number;
   constructor(length: number);
-  constructor(buff: DataView);
+  constructor(buff: ArrayBufferView);
   constructor(buff: ArrayBuffer);
-  constructor(arg1: number | DataView | ArrayBuffer) {
+  constructor(arg1: number | ArrayBufferView | ArrayBuffer) {
     super();
     if (typeof arg1 === 'number') {
       this.buff = new DataView(new ArrayBuffer(arg1));
     } else if (arg1 instanceof DataView) {
       this.buff = arg1;
-    } else {
+    } else if (isArrayBufferView(arg1)) {
+      this.buff = new DataView(arg1.buffer, arg1.byteOffset, arg1.byteLength);
+    } else if (isArrayBuffer(arg1)) {
       this.buff = new DataView(<ArrayBuffer> arg1);
+    } else {
+      throw new TypeError("Invalid argument.");
     }
     this.length = this.buff.byteLength;
   }
@@ -113,7 +118,7 @@ class BufferCoreArrayBuffer extends buffer_core.BufferCoreCommon implements buff
   public readDoubleBE(i: number): number {
     return this.buff.getFloat64(i, false);
   }
-  public copy(start: number, end: number): buffer_core.BufferCore {
+  public copy(start: number, end: number): BufferCore {
     var aBuff = this.buff.buffer;
     var newBuff: ArrayBuffer;
     // Some ArrayBuffer implementations (IE10) do not have 'slice'.
@@ -157,6 +162,6 @@ class BufferCoreArrayBuffer extends buffer_core.BufferCoreCommon implements buff
 }
 
 // Type-check the class.
-var _: buffer_core.BufferCoreImplementation = BufferCoreArrayBuffer;
+var _: BufferCoreImplementation = BufferCoreArrayBuffer;
 
 export = BufferCoreArrayBuffer;
