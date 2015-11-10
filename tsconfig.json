@@ -16,6 +16,7 @@
         "ts/buffer_core_arraybuffer.ts",
         "ts/buffer_core_imagedata.ts",
         "ts/string_util.ts",
-        "ts/util.ts"
+        "ts/util.ts",
+        "ts/extended_ascii.ts"
     ]
 }
