@@ -119,21 +119,31 @@ class BufferCoreArrayBuffer extends BufferCoreCommon implements BufferCore {
     return this.buff.getFloat64(i, false);
   }
   public copy(start: number, end: number): BufferCore {
-    var aBuff = this.buff.buffer;
-    var newBuff: ArrayBuffer;
+    let aBuff = this.buff.buffer;
+    let aBuffOff = this.buff.byteOffset;
+    let newBuff: ArrayBuffer;
     // Some ArrayBuffer implementations (IE10) do not have 'slice'.
     if (ArrayBuffer.prototype.slice) {
       // ArrayBuffer.slice is copying; exactly what we want.
-      newBuff = aBuff.slice(start, end);
+      newBuff = aBuff.slice(aBuffOff + start, aBuffOff + end);
     } else {
       var len = end - start;
       newBuff = new ArrayBuffer(len);
       // Copy the old contents in.
       var newUintArray = new Uint8Array(newBuff);
-      var oldUintArray = new Uint8Array(aBuff);
+      var oldUintArray = new Uint8Array(aBuff, aBuffOff);
       newUintArray.set(oldUintArray.subarray(start, end));
     }
     return new BufferCoreArrayBuffer(newBuff);
+  }
+  /**
+   * (Nonstandard) Copy [start, end) to [offset+start, offset+end) in target.
+   */
+  public copyTo(target: BufferCoreArrayBuffer, offset: number, start: number, end: number): number {
+    let targetU8 = new Uint8Array(target.buff.buffer, target.buff.byteOffset);
+    let sourceU8 = new Uint8Array(this.buff.buffer, this.buff.byteOffset + start, end - start);
+    targetU8.set(sourceU8, offset);
+    return end - start;
   }
   public fill(value: number, start: number, end: number): void {
     // Value must be a byte wide.

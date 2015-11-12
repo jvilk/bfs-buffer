@@ -515,15 +515,23 @@ export class Buffer implements BFSBuffer {
       return 0;
     }
 
-    var bytesCopied = Math.min(sourceEnd - sourceStart, target.length - targetStart, this.length - sourceStart),
-      i: number;
+    var bytesCopied = Math.min(sourceEnd - sourceStart, target.length - targetStart, this.length - sourceStart);
+
+    // Fast path.
+    if (target instanceof Buffer && this.data instanceof BufferCoreArrayBuffer) {
+      let targetCore = target.getBufferCore();
+      if (targetCore instanceof BufferCoreArrayBuffer) {
+        return (<BufferCoreArrayBuffer> this.data).copyTo(targetCore, targetStart, sourceStart, sourceStart + bytesCopied);
+      }
+    }
+
     // Copy as many 32-bit chunks as possible.
     // TODO: Alignment.
-    for (i = 0; i < bytesCopied - 3; i += 4) {
+    for (let i = 0; i < bytesCopied - 3; i += 4) {
       target.writeInt32LE(this.readInt32LE(sourceStart + i), targetStart + i);
     }
     // Copy any remaining bytes, if applicable
-    for (i = bytesCopied & 0xFFFFFFFC; i < bytesCopied; i++) {
+    for (let i = bytesCopied & 0xFFFFFFFC; i < bytesCopied; i++) {
       target.writeUInt8(this.readUInt8(sourceStart + i), targetStart + i);
     }
     return bytesCopied;

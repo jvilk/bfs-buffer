@@ -1,4 +1,4 @@
-# BrowserFS Buffer v0.1.2
+# BrowserFS Buffer v0.1.3
 > An emulation of NodeJS's Buffer module. Used in [BrowserFS](https://github.com/jvilk/BrowserFS).
 
 ## Features
