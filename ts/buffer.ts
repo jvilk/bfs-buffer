@@ -521,7 +521,7 @@ export class Buffer implements BFSBuffer {
     if (target instanceof Buffer && this.data instanceof BufferCoreArrayBuffer) {
       let targetCore = target.getBufferCore();
       if (targetCore instanceof BufferCoreArrayBuffer) {
-        return (<BufferCoreArrayBuffer> this.data).copyTo(targetCore, targetStart, sourceStart, sourceStart + bytesCopied);
+        return (<BufferCoreArrayBuffer> this.data).copyTo(targetCore, targetStart + target.offset, sourceStart + this.offset, sourceStart + bytesCopied + this.offset);
       }
     }
 
