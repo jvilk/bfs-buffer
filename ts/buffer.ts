@@ -1335,16 +1335,12 @@ var _: BFSBufferImplementation = Buffer;
  */
 export class SlowBuffer extends Buffer implements NodeBuffer {
   constructor (length: any, arg2?: any, arg3?: number) {
+    // Logic copied from Node; its constructor is simpler.
+    super(+length != length ? 0 : +length);
     // Node apparently allows you to construct buffers w/o 'new'.
     if (!(this instanceof SlowBuffer)) {
       return new SlowBuffer(length, arg2, arg3);
     }
-    // Logic copied from Node; its constructor is simpler.
-    if (+length != length) {
-      length = 0;
-    }
-
-    super(+length);
   }
 
   public static isBuffer(obj: any): obj is NodeBuffer {

@@ -16,9 +16,6 @@ var options = {
   stdio: 'inherit'
 }
 
-child_process.spawn(getNodeBinItem('tsd'), ["install"], options)
-  .on('close', function(code) {
-    checkCode(code);
-    child_process.spawn(getNodeBinItem('tsc'), options)
-      .on('close', checkCode);
-  });
+
+child_process.spawn(getNodeBinItem('tsc'), options)
+  .on('close', checkCode);

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "ES3",
+        "target": "es3",
         "declaration": true,
         "inlineSources": true,
         "inlineSourceMap": true,
@@ -9,7 +9,7 @@
         "outDir": "js"
     },
     "files": [
-        "typings/tsd.d.ts",
+        "typings/main.d.ts",
         "ts/buffer.ts",
         "ts/buffer_core.ts",
         "ts/buffer_core_array.ts",
