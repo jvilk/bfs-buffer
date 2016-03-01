@@ -37,7 +37,7 @@ class BufferCoreImageData extends BufferCoreCommon implements BufferCore {
     // use it! Hence the check for getContext.
     return typeof(CanvasPixelArray) !== 'undefined' && document.createElement('canvas')['getContext'] !== undefined;
   }
-  public static name = "ImageData";
+  public static bufferType = "ImageData";
 
   private buff: CanvasPixelArray;
   private length: number;

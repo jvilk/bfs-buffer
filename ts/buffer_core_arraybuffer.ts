@@ -9,7 +9,7 @@ class BufferCoreArrayBuffer extends BufferCoreCommon implements BufferCore {
     return typeof DataView !== 'undefined';
   }
 
-  public static name = "ArrayBuffer";
+  public static bufferType = "ArrayBuffer";
 
   private buff: DataView;
   private length: number;

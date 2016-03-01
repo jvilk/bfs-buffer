@@ -166,7 +166,7 @@ export interface BufferCoreImplementation {
   /**
    * The name of this particular implementation. Used for unit testing purposes.
    */
-  name: string;
+  bufferType: string;
 }
 
 /**

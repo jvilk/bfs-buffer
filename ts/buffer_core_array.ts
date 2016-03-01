@@ -15,7 +15,7 @@ class BufferCoreArray extends BufferCoreCommon implements BufferCore {
     return true;
   }
 
-  public static name = "Array";
+  public static bufferType = "Array";
 
   private buff: number[];
   private length: number;
