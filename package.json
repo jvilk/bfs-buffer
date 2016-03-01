@@ -1,6 +1,6 @@
 {
   "name": "bfs-buffer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The Buffer module, used in BrowserFS.",
   "main": "js/buffer.js",
   "typings": "js/buffer",

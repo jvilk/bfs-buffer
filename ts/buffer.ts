@@ -166,9 +166,11 @@ export interface JSONBufferObject {
 export class Buffer implements BFSBuffer {
   // Note: This array property is *not* true, but it's required to satisfy
   //       TypeScript typings.
+  // Note: DO NOT initialize any member properties up here! It will prevent
+  //       users from calling Buffer w/o `new`.
   [idx: number]: number;
   private data: buffer_core.BufferCore;
-  private offset: number = 0;
+  private offset: number;
   public length: number;
 
   /**
@@ -191,6 +193,7 @@ export class Buffer implements BFSBuffer {
     if (!(this instanceof Buffer)) {
       return new Buffer(arg1, arg2);
     }
+    this.offset = 0;
 
     if (arg1 instanceof buffer_core.BufferCoreCommon) {
       // constructor (data: buffer_core.BufferCore, start?: number, end?: number)
