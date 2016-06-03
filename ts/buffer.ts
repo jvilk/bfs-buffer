@@ -2,24 +2,23 @@
  * Buffer module. Exports an appropriate version of Buffer for the current
  * platform.
  */
-import buffer_core = require('./buffer_core');
-import BufferCoreArray = require('./buffer_core_array');
-import BufferCoreArrayBuffer = require('./buffer_core_arraybuffer');
-import BufferCoreImageData = require('./buffer_core_imagedata');
+import {BufferCoreImplementation, default as BufferCore, BufferCoreCommon} from './buffer_core';
+import BufferCoreArray from './buffer_core_array';
+import BufferCoreArrayBuffer from './buffer_core_arraybuffer';
+import BufferCoreImageData from './buffer_core_imagedata';
 import {StringUtil, FindUtil} from './string_util';
 import {isArrayBuffer, isArrayBufferView} from './util';
 
 // BC implementations earlier in the array are preferred.
-var BufferCorePreferences: buffer_core.BufferCoreImplementation[] = [
+const BufferCorePreferences: BufferCoreImplementation[] = [
   BufferCoreArrayBuffer,
   BufferCoreImageData,
   BufferCoreArray
 ];
 
-var PreferredBufferCore: buffer_core.BufferCoreImplementation = (function(): buffer_core.BufferCoreImplementation {
-  var i: number, bci: buffer_core.BufferCoreImplementation;
-  for (i = 0; i < BufferCorePreferences.length; i++) {
-    bci = BufferCorePreferences[i];
+let PreferredBufferCore: BufferCoreImplementation = (function(): BufferCoreImplementation {
+  for (let i = 0; i < BufferCorePreferences.length; i++) {
+    let bci = BufferCorePreferences[i];
     if (bci.isAvailable()) return bci;
   }
   // Should never happen; Array works in all browsers.
@@ -129,7 +128,7 @@ export interface BFSBuffer extends NodeBuffer {
   get(index: number): number;
   set(index: number, value: number): void;
   // Used by backends to get the backing data.
-  getBufferCore(): buffer_core.BufferCore;
+  getBufferCore(): BufferCore;
   // Used by backends in conjunction with getBufferCore() and the length
   // property to determine which segment of the backing memory is applicable
   // for a given operation.
@@ -169,7 +168,7 @@ export class Buffer implements BFSBuffer {
   // Note: DO NOT initialize any member properties up here! It will prevent
   //       users from calling Buffer w/o `new`.
   [idx: number]: number;
-  private data: buffer_core.BufferCore;
+  private data: BufferCore;
   private offset: number;
   public length: number;
 
@@ -186,7 +185,7 @@ export class Buffer implements BFSBuffer {
   constructor (data: NodeBuffer);
   constructor (data: JSONBufferObject);
   constructor (data: string, encoding?: string);
-  constructor (data: buffer_core.BufferCore, start?: number, end?: number);
+  constructor (data: BufferCore, start?: number, end?: number);
   constructor (arg1: any, arg2: any = 'utf8', arg3?: number) {
     var i: number;
     // Node apparently allows you to construct buffers w/o 'new'.
@@ -195,9 +194,9 @@ export class Buffer implements BFSBuffer {
     }
     this.offset = 0;
 
-    if (arg1 instanceof buffer_core.BufferCoreCommon) {
+    if (arg1 instanceof BufferCoreCommon) {
       // constructor (data: buffer_core.BufferCore, start?: number, end?: number)
-      this.data = <buffer_core.BufferCore> arg1;
+      this.data = <BufferCore> arg1;
       var start = typeof arg2 === 'number' ? <number><any> arg2 : 0;
       var end = typeof arg3 === 'number' ? <number> arg3 : this.data.getLength();
       this.offset = start;
@@ -252,21 +251,21 @@ export class Buffer implements BFSBuffer {
 
   /* TEST METHODS BEGIN */
 
-  public static getAvailableBufferCores(): buffer_core.BufferCoreImplementation[] {
+  public static getAvailableBufferCores(): BufferCoreImplementation[] {
     return BufferCorePreferences.filter((bci) => bci.isAvailable());
   }
 
-  public static getPreferredBufferCore(): buffer_core.BufferCoreImplementation {
+  public static getPreferredBufferCore(): BufferCoreImplementation {
     return PreferredBufferCore;
   }
 
-  public static setPreferredBufferCore(bci: buffer_core.BufferCoreImplementation) {
+  public static setPreferredBufferCore(bci: BufferCoreImplementation) {
     PreferredBufferCore = bci;
   }
 
   /* TEST METHODS END */
 
-  public getBufferCore(): buffer_core.BufferCore {
+  public getBufferCore(): BufferCore {
     return this.data;
   }
 

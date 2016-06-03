@@ -1,7 +1,7 @@
-import {BufferCoreCommon, BufferCore, BufferCoreImplementation} from './buffer_core';
+import {BufferCoreCommon, default as BufferCore, BufferCoreImplementation} from './buffer_core';
 
 // Used to clear segments of an array index.
-var clearMasks: number[] = [0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF, 0x00FFFFFF];
+const clearMasks: number[] = [0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF, 0x00FFFFFF];
 
 /**
  * Implementation of BufferCore that is backed by an array of 32-bit ints.
@@ -10,7 +10,7 @@ var clearMasks: number[] = [0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF, 0x00FFFFFF];
  *  BYTE 3      BYTE 2      BYTE 1      BYTE 0
  * 0000 0000 | 0000 0000 | 0000 0000 | 0000 0000
  */
-class BufferCoreArray extends BufferCoreCommon implements BufferCore {
+export default class BufferCoreArray extends BufferCoreCommon implements BufferCore {
   public static isAvailable(): boolean {
     return true;
   }
@@ -60,6 +60,4 @@ class BufferCoreArray extends BufferCoreCommon implements BufferCore {
 }
 
 // Type-check the class.
-var _: BufferCoreImplementation = BufferCoreArray;
-
-export = BufferCoreArray;
+const _: BufferCoreImplementation = BufferCoreArray;

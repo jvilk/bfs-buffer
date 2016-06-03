@@ -1,10 +1,10 @@
-import {BufferCoreCommon, BufferCore, BufferCoreImplementation} from './buffer_core';
+import {BufferCoreCommon, default as BufferCore, BufferCoreImplementation} from './buffer_core';
 import {isArrayBuffer, isArrayBufferView} from './util';
 
 /**
  * Represents data using an ArrayBuffer.
  */
-class BufferCoreArrayBuffer extends BufferCoreCommon implements BufferCore {
+export default class BufferCoreArrayBuffer extends BufferCoreCommon implements BufferCore {
   public static isAvailable(): boolean {
     return typeof DataView !== 'undefined';
   }
@@ -172,6 +172,4 @@ class BufferCoreArrayBuffer extends BufferCoreCommon implements BufferCore {
 }
 
 // Type-check the class.
-var _: BufferCoreImplementation = BufferCoreArrayBuffer;
-
-export = BufferCoreArrayBuffer;
+const _: BufferCoreImplementation = BufferCoreArrayBuffer;

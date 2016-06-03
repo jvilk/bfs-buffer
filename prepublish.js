@@ -16,6 +16,10 @@ var options = {
   stdio: 'inherit'
 }
 
-
-child_process.spawn(getNodeBinItem('tsc'), options)
-  .on('close', checkCode);
+var tsc = getNodeBinItem('tsc');
+child_process.spawn(tsc, options)
+  .on('close', (code) => {
+    checkCode(code);
+    child_process.spawn(tsc, ['-p', path.resolve(__dirname, 'tsconfig.es6.json')], options)
+      .on('close', checkCode);
+  });

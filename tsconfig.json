@@ -4,19 +4,12 @@
         "target": "es3",
         "declaration": true,
         "inlineSources": true,
-        "inlineSourceMap": true,
+        "sourceMap": true,
         "noImplicitAny": true,
-        "outDir": "js"
+        "outDir": "js/cjs"
     },
-    "files": [
-        "typings/main.d.ts",
-        "ts/buffer.ts",
-        "ts/buffer_core.ts",
-        "ts/buffer_core_array.ts",
-        "ts/buffer_core_arraybuffer.ts",
-        "ts/buffer_core_imagedata.ts",
-        "ts/string_util.ts",
-        "ts/util.ts",
-        "ts/extended_ascii.ts"
+    "exclude": [
+        "node_modules",
+        "js"
     ]
 }

@@ -4,16 +4,16 @@
  * Buffers are referenced everywhere, so it can cause a circular dependency.
  */
 
-var FLOAT_POS_INFINITY = Math.pow(2, 128);
-var FLOAT_NEG_INFINITY = -1 * FLOAT_POS_INFINITY;
-var FLOAT_POS_INFINITY_AS_INT = 0x7F800000;
-var FLOAT_NEG_INFINITY_AS_INT = -8388608;
-var FLOAT_NaN_AS_INT = 0x7fc00000;
+const FLOAT_POS_INFINITY = Math.pow(2, 128);
+const FLOAT_NEG_INFINITY = -1 * FLOAT_POS_INFINITY;
+const FLOAT_POS_INFINITY_AS_INT = 0x7F800000;
+const FLOAT_NEG_INFINITY_AS_INT = -8388608;
+const FLOAT_NaN_AS_INT = 0x7fc00000;
 
 /**
  * The core data-writing and reading methods of any buffer.
  */
-export interface BufferCore {
+interface BufferCore {
   /**
    * Get the size of this buffer core, in bytes.
    */
@@ -153,6 +153,7 @@ export interface BufferCore {
    */
   fill(value: number, start: number, end: number): void;
 }
+export default BufferCore;
 
 export interface BufferCoreImplementation {
   /**

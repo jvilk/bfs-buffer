@@ -1,4 +1,3 @@
-import buffer = require("./buffer");
 import ExtendedASCII from './extended_ascii';
 
 var fromCharCode = String.fromCharCode;
