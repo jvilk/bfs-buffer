@@ -4,7 +4,7 @@
   "description": "The Buffer module, used in BrowserFS.",
   "main": "js/cjs/buffer.js",
   "jsnext:main": "js/es6/buffer.js",
-  "typings": "js/buffer",
+  "typings": "js/cjs/buffer",
   "scripts": {
     "prepublish": "node prepublish"
   },
